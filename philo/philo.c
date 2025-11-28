@@ -2,10 +2,24 @@
 
 int	valid_argument(char **argv)
 {
-	if (argv[1] < 1)
+	int i;
+	int j;
+
+	i = 1;
+	j = 0;
+	while (argv[i])
+	{
+		while (argv[i][j])
+		{
+			if (argv[i][j] < 48 || argv[i][j] > 57)
+				return (printf("Need numeric arguments"), 0);
+			j++;
+		}
+		i++;
+	}
+	if (argv[1] < "1")
 		return (printf("Need more philos"), 0);
 	return (1);
-	if (argv[2])
 }
 
 int main (int argc, char **argv)

@@ -5,7 +5,7 @@
 # include <unistd.h>
 # include <stdio.h>
 
-typedef struct s_list
+/*typedef struct s_list
 {
 	t_list *next;
 
@@ -14,6 +14,6 @@ typedef struct s_list
 	int				id;
 
 	t_list	*previus;
-}					t_list;
+}					t_list;*/
 
 #endif
