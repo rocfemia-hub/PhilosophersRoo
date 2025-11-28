@@ -6,27 +6,27 @@ int	valid_argument(char **argv)
 	int j;
 
 	i = 1;
-	j = 0;
+	if (argv[1][0] < '2' && !argv[1][1])
+		return (printf("Need more philos\n"), 0);
 	while (argv[i])
 	{
+		j = 0;
 		while (argv[i][j])
 		{
-			if (argv[i][j] < 48 || argv[i][j] > 57)
-				return (printf("Need numeric arguments"), 0);
+			if (argv[i][j] < '0' || argv[i][j] > '9')
+				return (printf("Need numeric arguments\n"), 0);
 			j++;
 		}
 		i++;
 	}
-	if (argv[1] < "1")
-		return (printf("Need more philos"), 0);
 	return (1);
 }
 
 int main (int argc, char **argv)
 {
 	if (argc < 5 || argc > 6)
-		return (printf("incorrect number of arguments"), 0);
-	if(!valid_argument(argv));
+		return (printf("Incorrect number of arguments\n"), 0);
+	if (valid_argument(argv) != 1)
 		return (0);
 	return (0);
 }
