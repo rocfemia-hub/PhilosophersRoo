@@ -6,8 +6,6 @@ int	valid_argument(char **argv)
 	int j;
 
 	i = 1;
-	if (argv[1][0] < '2' && !argv[1][1])
-		return (printf("Need more philos\n"), 0);
 	while (argv[i])
 	{
 		j = 0;
@@ -17,6 +15,8 @@ int	valid_argument(char **argv)
 				return (printf("Need numeric arguments\n"), 0);
 			j++;
 		}
+		if (ft_atol(argv[i]) < 1)
+			return (printf("Invalid argument\n"), 0);
 		i++;
 	}
 	return (1);
@@ -24,10 +24,13 @@ int	valid_argument(char **argv)
 
 int main (int argc, char **argv)
 {
+	t_list **list;
+
 	if (argc < 5 || argc > 6)
 		return (printf("Incorrect number of arguments\n"), 0);
 	if (valid_argument(argv) != 1)
 		return (0);
+	list = init_philos(ft_atol(argv[1]), argv, list);
 	return (0);
 }
 

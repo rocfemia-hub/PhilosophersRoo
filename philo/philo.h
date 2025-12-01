@@ -4,16 +4,30 @@
 # include <pthread.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <stdlib.h>
 
-/*typedef struct s_list
+typedef struct s_list
 {
-	t_list *next;
+	struct s_list *next;
 
-	pthread_mutex_t *mutex;
-	pthread_t		*philo;
+	pthread_t		thread;
 	int				id;
+	int				n_philos;
+	long			time_die;
+	long			time_eat;
+	long			time_sleep;
+	long			n_eats;
+	pthread_mutex_t left_fork;
+	pthread_mutex_t *right_fork; //(next->left_fork)
 
-	t_list	*previus;
-}					t_list;*/
+}					t_list;
+
+int			valid_argument(char **argv);
+
+// LISTAS
+long		ft_atol(const char *nptr);
+t_list  	*create_node(int id, char **argv);
+t_list		*last_node(t_list **list);
+t_list		**init_philos(int n_philos, char **argv, t_list **head);
 
 #endif
