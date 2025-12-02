@@ -24,13 +24,14 @@ int	valid_argument(char **argv)
 
 int main (int argc, char **argv)
 {
-	t_list **list;
+	t_list *list;
 
 	if (argc < 5 || argc > 6)
 		return (printf("Incorrect number of arguments\n"), 0);
 	if (valid_argument(argv) != 1)
 		return (0);
-	list = init_philos(ft_atol(argv[1]), argv, list);
+	list =	NULL;
+	init_philos(ft_atol(argv[1]), argv, &list);
 	return (0);
 }
 

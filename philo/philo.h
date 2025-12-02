@@ -28,6 +28,6 @@ int			valid_argument(char **argv);
 long		ft_atol(const char *nptr);
 t_list  	*create_node(int id, char **argv);
 t_list		*last_node(t_list **list);
-t_list		**init_philos(int n_philos, char **argv, t_list **head);
+void		init_philos(int n_philos, char **argv, t_list **head);
 
 #endif

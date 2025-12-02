@@ -57,7 +57,7 @@ t_list	*last_node(t_list **list)
 	return(tmp);
 }
 
-t_list	**init_philos(int n_philos, char **argv, t_list **head)
+void	init_philos(int n_philos, char **argv, t_list **head)
 {
 	t_list *node;
 	int i;
@@ -74,5 +74,4 @@ t_list	**init_philos(int n_philos, char **argv, t_list **head)
 		i++;
 	}
 	// asignar forks
-	return (head);
 }
