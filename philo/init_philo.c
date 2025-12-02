@@ -52,6 +52,8 @@ t_list	*last_node(t_list **list)
 	tmp = *list;
 	while (tmp && tmp->next)
 	{
+		if(tmp->id == tmp->n_philos)
+			return (tmp);
 		tmp = tmp->next;
 	}
 	return(tmp);
@@ -66,12 +68,16 @@ void	init_philos(int n_philos, char **argv, t_list **head)
 	i = 0;
 	while (i < n_philos)
 	{
-		node = create_node(i, argv);
+		node = create_node(i + 1, argv);
 		if (!*head)
 			*head = node;
 		else
+		{
+			last_node(head)->right_fork = &node->left_fork;
 			last_node(head)->next = node;
+		}
 		i++;
 	}
-	// asignar forks
+	last_node(head)->right_fork = &(*head)->left_fork;
+	last_node(head)->next = *head;
 }

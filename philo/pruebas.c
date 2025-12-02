@@ -46,9 +46,9 @@ void operar_patatas(int (*operacion)(int, int), int arg, int arg2)
 
 int main (int argc, char **argv)
 {
-	pthread_t hilo_1;
-	pthread_t hilo_2;
-	t_mutex strukt;
+	pthread_t	hilo_1;
+	pthread_t	hilo_2;
+	t_mutex		strukt;
 
 	operar_patatas(&sumar, 10, 23);
 	operar_patatas(&restar, 10, 23);

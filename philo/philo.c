@@ -32,6 +32,7 @@ int main (int argc, char **argv)
 		return (0);
 	list =	NULL;
 	init_philos(ft_atol(argv[1]), argv, &list);
+	printf("todo correcto :)\n");
 	return (0);
 }
 
