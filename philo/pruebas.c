@@ -44,15 +44,34 @@ void operar_patatas(int (*operacion)(int, int), int arg, int arg2)
 	printf("Operacion %d\n", operacion(arg, arg2));
 }
 
+long	time_controler(struct timeval timev)
+{
+	long a;
+	long b;
+
+	a = timev.tv_sec * 1000;
+	b = timev.tv_usec / 1000;
+	gettimeofday(&timev, NULL);
+	return ((timev.tv_sec * 1000 + timev.tv_usec / 1000) - (a + b));
+}
+
 int main (int argc, char **argv)
 {
 	pthread_t	hilo_1;
 	pthread_t	hilo_2;
 	t_mutex		strukt;
+	long		time;
+	struct timeval timev;
 
+	gettimeofday(&timev, NULL);
+	time = time_controler(timev);
+	printf("Tiempo antes: %ld\n", time);
 	operar_patatas(&sumar, 10, 23);
 	operar_patatas(&restar, 10, 23);
 	strukt.result = 0;
+	usleep(1000000);
+	time = time_controler(timev); // hay q llamar a time controler cada vez q hago un printf en philo.c porque este haciendo cualquier cosa de la rutina.
+	printf("Tiempo después: %ld\n", time);
 	pthread_mutex_init(&strukt.mutex, NULL);
 	pthread_mutex_init(&strukt.mutex, NULL);
 	pthread_create(&hilo_1, NULL, routine_sum, &strukt);

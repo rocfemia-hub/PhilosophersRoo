@@ -6,13 +6,22 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:12 by roo               #+#    #+#             */
-/*   Updated: 2025/12/02 19:21:14 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/04 20:44:12 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "philo.h"
 
-int	valid_argument(char **argv)
+long	time_controler(struct timeval timer, t_time time)
+{
+	long	total_timer;
+	
+	gettimeofday(&timer, NULL);
+	total_timer = (timer.tv_sec * 1000 + timer.tv_usec / 1000);
+	return (total_timer - (time.sec + time.usec));
+}
+
+static int	valid_argument(char **argv)
 {
 	int i;
 	int j;
@@ -37,15 +46,26 @@ int	valid_argument(char **argv)
 int main (int argc, char **argv)
 {
 	t_list *list;
+	t_time initial_time;
+	struct timeval timer;
 
 	if (argc < 5 || argc > 6)
 		return (printf("Incorrect number of arguments\n"), 0);
 	if (valid_argument(argv) != 1)
 		return (0);
 	list =	NULL;
+	
+	gettimeofday(&timer, NULL);
+	initial_time.sec = timer.tv_sec * 1000;
+	initial_time.usec = timer.tv_usec / 1000;
+	printf("Tiempo antes: %ld\n", time_controler(timer, initial_time));
+	
+	usleep(100000);
+	printf("Tiempo después: %ld\n", time_controler(timer, initial_time));
+	
 	init_philos(ft_atol(argv[1]), argv, &list);
-	printf("todo correcto :)\n");
-	return (0);
+	//pthread_create(&list->thread, NULL, ???(), &list);
+	return (printf("todo correcto :)\n"), 0);
 }
 
 //formato y rango

@@ -6,7 +6,7 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:24 by roo               #+#    #+#             */
-/*   Updated: 2025/12/02 19:21:27 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/04 19:59:44 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ long	ft_atol(const char *nptr)
 	return (result * sig);
 }
 
-t_list  *create_node(int id, char **argv)
+static t_list  *create_node(int id, char **argv)
 {
     t_list  *node;
 
@@ -57,7 +57,7 @@ t_list  *create_node(int id, char **argv)
     return (node);
 }
 
-t_list	*last_node(t_list **list)
+static t_list	*last_node(t_list **list)
 {
 	t_list *tmp;
 
@@ -74,9 +74,11 @@ t_list	*last_node(t_list **list)
 void	init_philos(int n_philos, char **argv, t_list **head)
 {
 	t_list *node;
+	t_list *last;
 	int i;
 
 	node = NULL;
+	last = NULL;
 	i = 0;
 	while (i < n_philos)
 	{
@@ -85,11 +87,12 @@ void	init_philos(int n_philos, char **argv, t_list **head)
 			*head = node;
 		else
 		{
-			last_node(head)->right_fork = &node->left_fork;
-			last_node(head)->next = node;
+			last->right_fork = &node->left_fork;
+			last->next = node;
 		}
+		last = node;
 		i++;
 	}
-	last_node(head)->right_fork = &(*head)->left_fork;
-	last_node(head)->next = *head;
+	last->right_fork = &(*head)->left_fork;
+	last->next = *head;
 }

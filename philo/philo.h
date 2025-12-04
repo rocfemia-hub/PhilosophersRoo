@@ -6,7 +6,7 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:01 by roo               #+#    #+#             */
-/*   Updated: 2025/12/02 19:21:03 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/04 20:39:55 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,14 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <sys/time.h>
+
+typedef struct s_time
+{
+	long			sec;
+	long			usec;
+	
+}					t_time;
 
 typedef struct s_list
 {
@@ -34,12 +42,10 @@ typedef struct s_list
 
 }					t_list;
 
-int			valid_argument(char **argv);
+long		time_controler(struct timeval timev, t_time time);
 
 // LISTAS
 long		ft_atol(const char *nptr);
-t_list  	*create_node(int id, char **argv);
-t_list		*last_node(t_list **list);
 void		init_philos(int n_philos, char **argv, t_list **head);
 
 #endif
