@@ -6,19 +6,20 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:12 by roo               #+#    #+#             */
-/*   Updated: 2025/12/04 20:44:12 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/05 18:43:53 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "philo.h"
 
-long	time_controler(struct timeval timer, t_time time)
+long	get_time(long init)
 {
 	long	total_timer;
+	struct timeval tv;
 	
-	gettimeofday(&timer, NULL);
-	total_timer = (timer.tv_sec * 1000 + timer.tv_usec / 1000);
-	return (total_timer - (time.sec + time.usec));
+	gettimeofday(&tv, NULL);
+	total_timer = (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	return (total_timer - init);
 }
 
 static int	valid_argument(char **argv)
@@ -46,7 +47,6 @@ static int	valid_argument(char **argv)
 int main (int argc, char **argv)
 {
 	t_list *list;
-	t_time initial_time;
 	struct timeval timer;
 
 	if (argc < 5 || argc > 6)
@@ -55,17 +55,37 @@ int main (int argc, char **argv)
 		return (0);
 	list =	NULL;
 	
-	gettimeofday(&timer, NULL);
-	initial_time.sec = timer.tv_sec * 1000;
-	initial_time.usec = timer.tv_usec / 1000;
-	printf("Tiempo antes: %ld\n", time_controler(timer, initial_time));
+	//gettimeofday(&timer, NULL);
+	//initial_time.sec = timer.tv_sec * 1000;
+	//initial_time.usec = timer.tv_usec / 1000;
+	//printf("Tiempo antes: %ld\n", get_time(timer, initial_time));
 	
-	usleep(100000);
-	printf("Tiempo después: %ld\n", time_controler(timer, initial_time));
+	//usleep(100000);
+	//printf("Tiempo después: %ld\n", get_time(timer, initial_time));
 	
 	init_philos(ft_atol(argv[1]), argv, &list);
-	//pthread_create(&list->thread, NULL, ???(), &list);
+	create_philos(&list);
+	
 	return (printf("todo correcto :)\n"), 0);
+}
+
+void	create_philos(t_list **list)
+{
+	int i;
+	long pito;
+	t_list *tmp;
+
+	i = 0;
+	tmp = *list;
+	pito = get_time(0);
+	while (tmp->n_philos > i)
+	{
+		tmp->init = pito;
+		pthread_create(&tmp->thread, NULL, routine, &tmp);
+		tmp = tmp->next;
+		i++;
+	}
+	return ;
 }
 
 //formato y rango

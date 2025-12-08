@@ -6,7 +6,7 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:01 by roo               #+#    #+#             */
-/*   Updated: 2025/12/04 20:39:55 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/05 18:41:54 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,12 @@
 # include <stdlib.h>
 # include <sys/time.h>
 
-typedef struct s_time
-{
-	long			sec;
-	long			usec;
-	
-}					t_time;
-
 typedef struct s_list
 {
 	struct s_list *next;
 
+	long			init;
+	long			last_eat;
 	pthread_t		thread;
 	int				id;
 	int				n_philos;
@@ -42,10 +37,12 @@ typedef struct s_list
 
 }					t_list;
 
-long		time_controler(struct timeval timev, t_time time);
+long		get_time(long init);
+void		*routine(void *arg);
 
 // LISTAS
 long		ft_atol(const char *nptr);
 void		init_philos(int n_philos, char **argv, t_list **head);
+void		create_philos(t_list **list);
 
 #endif
