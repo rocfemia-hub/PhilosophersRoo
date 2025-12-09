@@ -6,7 +6,7 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:24 by roo               #+#    #+#             */
-/*   Updated: 2025/12/08 19:21:20 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/08 20:51:23 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static t_list  *create_node(int id, char **argv)
     return (node);
 }
 
-static t_list	*last_node(t_list **list)
+/*static t_list	*last_node(t_list **list)
 {
 	t_list *tmp;
 
@@ -69,7 +69,7 @@ static t_list	*last_node(t_list **list)
 		tmp = tmp->next;
 	}
 	return(tmp);
-}
+}*/
 
 void	init_philos(int n_philos, char **argv, t_list **head)
 {

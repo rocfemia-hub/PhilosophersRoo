@@ -6,7 +6,7 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:01 by roo               #+#    #+#             */
-/*   Updated: 2025/12/05 18:41:54 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/09 00:55:47 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ typedef struct s_list
 }					t_list;
 
 long		get_time(long init);
+void		ft_usleep(long milsec);
 void		*routine(void *arg);
 
 // LISTAS

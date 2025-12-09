@@ -6,7 +6,7 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:12 by roo               #+#    #+#             */
-/*   Updated: 2025/12/08 20:05:34 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/09 00:43:43 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 long	get_time(long init)
 {
 	long	total_timer;
-	struct timeval tv;
+	struct	timeval tv;
 	
 	gettimeofday(&tv, NULL);
 	total_timer = (tv.tv_sec * 1000 + tv.tv_usec / 1000);
@@ -47,7 +47,7 @@ static int	valid_argument(char **argv)
 int main (int argc, char **argv)
 {
 	t_list *list;
-	struct timeval timer;
+	//struct timeval timer;
 
 	if (argc < 5 || argc > 6)
 		return (printf("Incorrect number of arguments\n"), 0);
@@ -60,7 +60,7 @@ int main (int argc, char **argv)
 	//initial_time.usec = timer.tv_usec / 1000;
 	//printf("Tiempo antes: %ld\n", get_time(timer, initial_time));
 	
-	//usleep(100000);
+	//ft_usleep(100000);
 	//printf("Tiempo después: %ld\n", get_time(timer, initial_time));
 	
 	init_philos(ft_atol(argv[1]), argv, &list);
@@ -84,6 +84,11 @@ void	create_philos(t_list **list)
 		pthread_create(&tmp->thread, NULL, routine, tmp);
 		tmp = tmp->next;
 		i++;
+	}
+	while (0 < i--)
+	{
+		pthread_join(tmp->thread, NULL);
+		tmp = tmp->next;
 	}
 	return ;
 }
