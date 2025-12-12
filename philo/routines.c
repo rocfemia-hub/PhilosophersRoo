@@ -6,59 +6,56 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:20:46 by roo               #+#    #+#             */
-/*   Updated: 2025/12/09 01:20:24 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/12 17:46:01 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "philo.h"
 
-void ft_usleep(long milsec)
-{
-    long	start;
-    long	current;
-    
-    start = get_time(0);
-    while (1)
-    {
-        current = get_time(0);
-        if (current - start >= milsec)
-            break;
-        usleep(10);
-    }
-}
-
-static void	ft_eat(t_list *philo)
+static int	ft_eat(t_list *philo)
 {
 	if (philo->id % 2 == 0)
 	{
 		pthread_mutex_lock(philo->right_fork);
+		if(is_this_death(philo) || is_other_death(philo)) // hay q poner esto por todas partes para evitar data races
+			return (0);
 		printf("%ld %d has taken a fork\n", get_time(philo->init), philo->id);
 		pthread_mutex_lock(&philo->left_fork);
+		if(is_this_death(philo) || is_other_death(philo)) // hay q poner esto por todas partes para evitar data races
+			return (0);
 		printf("%ld %d has taken a fork\n", get_time(philo->init), philo->id);
 		printf("%ld %d is eating\n", get_time(philo->init), philo->id);
 		philo->last_eat = get_time(philo->init);
-		ft_usleep(philo->time_eat); //usleep en microsegundos (1000 microsegundos = 1 milisegundo)
+		ft_usleep(philo->time_eat, philo); //usleep en microsegundos (1000 microsegundos = 1 milisegundo)
 		pthread_mutex_unlock(philo->right_fork);
 		pthread_mutex_unlock(&philo->left_fork);
 	}
 	else
 	{
 		pthread_mutex_lock(&philo->left_fork);
+		if(is_this_death(philo) || is_other_death(philo)) // hay q poner esto por todas partes para evitar data races
+			return (0);
 		printf("%ld %d has taken a fork\n", get_time(philo->init), philo->id);
 		pthread_mutex_lock(philo->right_fork);
+		if(is_this_death(philo) || is_other_death(philo)) // hay q poner esto por todas partes para evitar data races
+			return (0);
 		printf("%ld %d has taken a fork\n", get_time(philo->init), philo->id);
 		printf("%ld %d is eating\n", get_time(philo->init), philo->id);
 		philo->last_eat = get_time(philo->init);
-		ft_usleep(philo->time_eat);
+		ft_usleep(philo->time_eat, philo);
 		pthread_mutex_unlock(&philo->left_fork);
 		pthread_mutex_unlock(philo->right_fork);
 	}
+	return (1);
 }
 
-static void	ft_sleep(t_list *philo)
+static int	ft_sleep(t_list *philo)
 {
+	if(is_this_death(philo) || is_other_death(philo)) // hay q poner esto por todas partes para evitar data races
+		return (0);
 	printf("%ld %d is sleeping\n", get_time(philo->init), philo->id);
-	ft_usleep(philo->time_sleep);
+	ft_usleep(philo->time_sleep, philo);
+	return (1);
 }
 
 void	*routine(void *arg)
@@ -67,14 +64,18 @@ void	*routine(void *arg)
 
 	philo = (t_list *)arg;
 	philo->last_eat = 0;
+	usleep(200); // hmmm
 	while (1)
 	{
-		if ((get_time(philo->init) - philo->last_eat) > philo->time_die) // hay q poner esto por todas partes para evitar data races
-			break;
+		if (is_this_death(philo) || is_other_death(philo)) // hay q poner esto por todas partes para evitar data races
+			return (NULL);
+		pthread_mutex_lock(&philo->aux->death_mutex);
 		printf("%ld %d is thinking\n", get_time(philo->init), philo->id);
-		ft_eat(philo);
-		ft_sleep(philo);
+		pthread_mutex_unlock(&philo->aux->death_mutex);
+		if (ft_eat(philo) == 0)
+			return (NULL);
+		if (ft_sleep(philo) == 0)
+			return (NULL);
 	}
-	printf("%ld %d died\n", get_time(philo->init), philo->id);
 	return (NULL);
 }

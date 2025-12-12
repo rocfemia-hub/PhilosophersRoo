@@ -11,7 +11,7 @@ void	*routine_res(void *arg)
 	t_mutex *strukt;
 
 	strukt = arg;
-	//ft_usleep(? * 1000);
+	//usleep(? * 1000);
 	pthread_mutex_lock(&strukt->mutex);
 	strukt->result = strukt->result - 50;
 	printf("Res-> %d\n", strukt->result);
@@ -69,7 +69,7 @@ int main (int argc, char **argv)
 	operar_patatas(&sumar, 10, 23);
 	operar_patatas(&restar, 10, 23);
 	strukt.result = 0;
-	ft_usleep(1000000);
+	usleep(1000000);
 	time = get_time(timev); // hay q llamar a time controler cada vez q hago un printf en philo.c porque este haciendo cualquier cosa de la rutina.
 	printf("Tiempo después: %ld\n", time);
 	pthread_mutex_init(&strukt.mutex, NULL);

@@ -6,7 +6,7 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:12 by roo               #+#    #+#             */
-/*   Updated: 2025/12/09 00:43:43 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/12 17:42:13 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static int	valid_argument(char **argv)
 int main (int argc, char **argv)
 {
 	t_list *list;
+	t_aux	aux;
 	//struct timeval timer;
 
 	if (argc < 5 || argc > 6)
@@ -55,15 +56,17 @@ int main (int argc, char **argv)
 		return (0);
 	list =	NULL;
 	
+	aux.death_flag = 0;
+    pthread_mutex_init(&aux.death_mutex, NULL);
 	//gettimeofday(&timer, NULL);
 	//initial_time.sec = timer.tv_sec * 1000;
 	//initial_time.usec = timer.tv_usec / 1000;
 	//printf("Tiempo antes: %ld\n", get_time(timer, initial_time));
 	
-	//ft_usleep(100000);
+	//usleep(100000);
 	//printf("Tiempo después: %ld\n", get_time(timer, initial_time));
 	
-	init_philos(ft_atol(argv[1]), argv, &list);
+	init_philos(ft_atol(argv[1]), argv, &list, &aux);
 	create_philos(&list);
 	
 	return (printf("todo correcto :)\n"), 0);

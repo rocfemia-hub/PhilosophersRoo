@@ -6,7 +6,7 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:01 by roo               #+#    #+#             */
-/*   Updated: 2025/12/09 00:55:47 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/12 16:58:33 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/time.h>
+
+typedef struct s_aux
+{
+    pthread_mutex_t death_mutex;
+    int             death_flag;
+	
+}               	t_aux;
 
 typedef struct s_list
 {
@@ -35,15 +42,19 @@ typedef struct s_list
 	pthread_mutex_t left_fork;
 	pthread_mutex_t *right_fork; //(next->left_fork)
 
+	t_aux        *aux;
 }					t_list;
 
 long		get_time(long init);
-void		ft_usleep(long milsec);
 void		*routine(void *arg);
+
+void		ft_usleep(long milsec, t_list *philo);
+int			is_this_death(t_list *philo);
+int			is_other_death(t_list *philo);
 
 // LISTAS
 long		ft_atol(const char *nptr);
-void		init_philos(int n_philos, char **argv, t_list **head);
+void		init_philos(int n_philos, char **argv, t_list **head, t_aux *aux);
 void		create_philos(t_list **list);
 
 #endif

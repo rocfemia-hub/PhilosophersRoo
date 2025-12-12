@@ -6,7 +6,7 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:24 by roo               #+#    #+#             */
-/*   Updated: 2025/12/08 20:51:23 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/10 00:21:58 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ long	ft_atol(const char *nptr)
 	return (result * sig);
 }
 
-static t_list  *create_node(int id, char **argv)
+static t_list  *create_node(int id, char **argv, t_aux *aux)
 {
     t_list  *node;
 
@@ -54,6 +54,7 @@ static t_list  *create_node(int id, char **argv)
     pthread_mutex_init(&node->left_fork, NULL);
 	node->right_fork = NULL;
     node->next = NULL;
+	node->aux = aux;
     return (node);
 }
 
@@ -71,7 +72,7 @@ static t_list  *create_node(int id, char **argv)
 	return(tmp);
 }*/
 
-void	init_philos(int n_philos, char **argv, t_list **head)
+void	init_philos(int n_philos, char **argv, t_list **head, t_aux *aux)
 {
 	t_list *node;
 	t_list *last;
@@ -82,7 +83,7 @@ void	init_philos(int n_philos, char **argv, t_list **head)
 	i = 0;
 	while (i < n_philos)
 	{
-		node = create_node(i + 1, argv);
+		node = create_node(i + 1, argv, aux);
 		if (!*head)
 			*head = node;
 		else
