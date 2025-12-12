@@ -6,7 +6,7 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 16:57:32 by roo               #+#    #+#             */
-/*   Updated: 2025/12/12 16:57:45 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/12 18:27:28 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void ft_usleep(long milsec, t_list *philo)
 int is_this_death(t_list *philo)
 {
 	pthread_mutex_lock(&philo->aux->death_mutex);
-	if(philo->aux->death_flag == 1)
+	if (philo->aux->death_flag == 1)
 		return (pthread_mutex_unlock(&philo->aux->death_mutex), 1);
 	if ((get_time(philo->init) - philo->last_eat) > philo->time_die)
 	{
