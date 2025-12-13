@@ -6,7 +6,7 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:24 by roo               #+#    #+#             */
-/*   Updated: 2025/12/10 00:21:58 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/13 22:26:16 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static t_list  *create_node(int id, char **argv, t_aux *aux)
 		node->n_eats = ft_atol(argv[5]);
 	else
 		node->n_eats = -1;
+	node->eats_count = 0;
     pthread_mutex_init(&node->left_fork, NULL);
 	node->right_fork = NULL;
     node->next = NULL;

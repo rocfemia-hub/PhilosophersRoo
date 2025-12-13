@@ -6,7 +6,7 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:01 by roo               #+#    #+#             */
-/*   Updated: 2025/12/12 16:58:33 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/13 21:55:35 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_list
 	long			time_eat;
 	long			time_sleep;
 	long			n_eats;
+	long			eats_count;
 	pthread_mutex_t left_fork;
 	pthread_mutex_t *right_fork; //(next->left_fork)
 
