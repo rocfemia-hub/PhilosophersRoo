@@ -6,11 +6,11 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:24 by roo               #+#    #+#             */
-/*   Updated: 2025/12/13 22:26:16 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/15 19:45:59 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philo.h"
+#include "philo.h"
 
 long	ft_atol(const char *nptr)
 {
@@ -35,14 +35,14 @@ long	ft_atol(const char *nptr)
 	return (result * sig);
 }
 
-static t_list  *create_node(int id, char **argv, t_aux *aux)
+static t_list	*create_node(int id, char **argv, t_aux *aux)
 {
-    t_list  *node;
+	t_list	*node;
 
-    node = malloc(sizeof(t_list));
-    if (!node)
-        return (NULL);
-    node->id = id;
+	node = malloc(sizeof(t_list));
+	if (!node)
+		return (NULL);
+	node->id = id;
 	node->n_philos = ft_atol(argv[1]);
 	node->time_die = ft_atol(argv[2]);
 	node->time_eat = ft_atol(argv[3]);
@@ -52,32 +52,18 @@ static t_list  *create_node(int id, char **argv, t_aux *aux)
 	else
 		node->n_eats = -1;
 	node->eats_count = 0;
-    pthread_mutex_init(&node->left_fork, NULL);
-	node->right_fork = NULL;
-    node->next = NULL;
+	pthread_mutex_init(&node->l_fork, NULL);
+	node->r_fork = NULL;
+	node->next = NULL;
 	node->aux = aux;
-    return (node);
+	return (node);
 }
-
-/*static t_list	*last_node(t_list **list)
-{
-	t_list *tmp;
-
-	tmp = *list;
-	while (tmp && tmp->next)
-	{
-		if(tmp->id == tmp->n_philos)
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return(tmp);
-}*/
 
 void	init_philos(int n_philos, char **argv, t_list **head, t_aux *aux)
 {
-	t_list *node;
-	t_list *last;
-	int i;
+	t_list	*node;
+	t_list	*last;
+	int		i;
 
 	node = NULL;
 	last = NULL;
@@ -89,12 +75,12 @@ void	init_philos(int n_philos, char **argv, t_list **head, t_aux *aux)
 			*head = node;
 		else
 		{
-			last->right_fork = &node->left_fork;
+			last->r_fork = &node->l_fork;
 			last->next = node;
 		}
 		last = node;
 		i++;
 	}
-	last->right_fork = &(*head)->left_fork;
+	last->r_fork = &(*head)->l_fork;
 	last->next = *head;
 }

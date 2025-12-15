@@ -6,29 +6,30 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 16:57:32 by roo               #+#    #+#             */
-/*   Updated: 2025/12/12 18:27:28 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/15 19:39:39 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "philo.h"
+#include "philo.h"
 
-void ft_usleep(long milsec, t_list *philo)
+void	ft_usleep(long milsec, t_list *philo)
 {
-    long	start;
-    long	current;
-    
-    start = get_time(0);
-    while (1)
-    {
-        current = get_time(0);
-		if(is_this_death(philo) || is_other_death(philo)) // hay q poner esto por todas partes para evitar data races
+	long	start;
+	long	current;
+
+	start = get_time(0);
+	while (1)
+	{
+		current = get_time(0);
+		if (is_this_death(philo) || is_other_death(philo))
 			return ;
-        if (current - start >= milsec)
-            break ;
-        usleep(10);
-    }
+		if (current - start >= milsec)
+			break ;
+		usleep(10);
+	}
 }
-int is_this_death(t_list *philo)
+
+int	is_this_death(t_list *philo)
 {
 	pthread_mutex_lock(&philo->aux->death_mutex);
 	if (philo->aux->death_flag == 1)
@@ -43,7 +44,8 @@ int is_this_death(t_list *philo)
 	pthread_mutex_unlock(&philo->aux->death_mutex);
 	return (0);
 }
-int is_other_death(t_list *philo)
+
+int	is_other_death(t_list *philo)
 {
 	pthread_mutex_lock(&philo->aux->death_mutex);
 	if (philo->aux->death_flag == 1)

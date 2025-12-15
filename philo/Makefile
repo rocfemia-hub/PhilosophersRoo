@@ -10,7 +10,7 @@ CCFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address -fno-omit-frame-pointer -
 
 SRC_DIR = src
 
-SRC = philo.c init_philo.c routines.c deaths.c\
+SRC = philo.c init_philo.c routines.c deaths.c one_philo.c\
 
 OBJS = ${SRC:%.c=objects/%.o}
 

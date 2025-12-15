@@ -6,7 +6,7 @@
 /*   By: roo <roo@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 19:21:01 by roo               #+#    #+#             */
-/*   Updated: 2025/12/13 21:55:35 by roo              ###   ########.fr       */
+/*   Updated: 2025/12/15 23:24:53 by roo              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@
 
 typedef struct s_aux
 {
-    pthread_mutex_t death_mutex;
-    int             death_flag;
-	
-}               	t_aux;
+	pthread_mutex_t	death_mutex;
+	int				death_flag;
+	int				philos_eaten;
+
+}					t_aux;
 
 typedef struct s_list
 {
-	struct s_list *next;
+	struct s_list	*next;
 
 	long			init;
 	long			last_eat;
@@ -40,14 +41,15 @@ typedef struct s_list
 	long			time_sleep;
 	long			n_eats;
 	long			eats_count;
-	pthread_mutex_t left_fork;
-	pthread_mutex_t *right_fork; //(next->left_fork)
+	pthread_mutex_t	l_fork;
+	pthread_mutex_t	*r_fork;
 
-	t_aux        *aux;
+	t_aux			*aux;
 }					t_list;
 
 long		get_time(long init);
 void		*routine(void *arg);
+int			one_philo(t_list *philo);
 
 void		ft_usleep(long milsec, t_list *philo);
 int			is_this_death(t_list *philo);
