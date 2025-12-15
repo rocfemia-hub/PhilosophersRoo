@@ -38,7 +38,7 @@ static int	ft_eat(t_list *philo)
 			return (pthread_mutex_unlock(&philo->left_fork), 0);
 		printf("%ld %d has taken a fork\n", get_time(philo->init), philo->id);
 		pthread_mutex_lock(philo->right_fork);
-		if(is_this_death(philo) || is_other_death(philo)) // hay q poner esto por todas partes para evitar data races
+		if (is_this_death(philo) || is_other_death(philo)) // hay q poner esto por todas partes para evitar data races
 			return (pthread_mutex_unlock(&philo->left_fork), pthread_mutex_unlock(philo->right_fork), 0);
 		printf("%ld %d has taken a fork\n", get_time(philo->init), philo->id);
 		printf("%ld %d is eating\n", get_time(philo->init), philo->id);
@@ -66,9 +66,11 @@ void	*routine(void *arg)
 
 	philo = (t_list *)arg;
 	philo->last_eat = 0; // esto se puede cambiar por get_time(philo->init)?
+	/*if (!philo->next)
+		funion d un filo*/ //no compruebes el rigth fork (lo ha dicho alguien muy listo)
 	while (1)
 	{
-		if (philo->n_eats != -1 && philo->eats_count >= philo->n_eats)
+		if (philo->n_eats != -1 && philo->eats_count >= philo->n_eats) // esto no así :((((((, el resto tienen q seguir comiendo
 			break;
 		if (is_this_death(philo) || is_other_death(philo)) // hay q poner esto por todas partes para evitar data races
 			return (NULL);

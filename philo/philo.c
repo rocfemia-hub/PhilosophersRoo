@@ -68,15 +68,38 @@ int main (int argc, char **argv)
 	
 	init_philos(ft_atol(argv[1]), argv, &list, &aux);
 	create_philos(&list);
-	
+	free_all(&list);
 	return (printf("todo correcto :)\n"), 0);
+}
+
+void	free_all(t_list **list)
+{
+	int i;
+	t_list *tmp;
+	t_list *tmp_aux;
+	int aux;
+
+	i = 0;
+	tmp = *list;
+	tmp_aux = tmp->next;
+	aux = tmp->n_philos;
+	pthread_mutex_destroy(&tmp->aux->death_mutex);
+	while (aux > i)
+	{
+		tmp_aux = tmp->next;
+		pthread_mutex_destroy(&tmp->left_fork);
+		free(tmp);
+		tmp = tmp_aux;
+		i++;
+	}
+	return ;
 }
 
 void	create_philos(t_list **list)
 {
 	int i;
-	long time_init;
 	t_list *tmp;
+	long time_init;
 
 	i = 0;
 	tmp = *list;
@@ -108,4 +131,3 @@ void	create_philos(t_list **list)
 //argv[5] = [number_of_times_each_philosopher_must_eat]
 
 //./philo "5 500 100 200"
-// puede entrar así:./philo "5 500 100 200" y así: ./philo 5 500 100 200

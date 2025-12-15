@@ -6,7 +6,7 @@ CC = cc
 BLUE   = \033[34m
 RESET  = \033[0m
 
-CCFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address -fno-omit-frame-pointer -O1 -pthread
+CCFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address -fno-omit-frame-pointer -O1 -pthread
 
 SRC_DIR = src
 

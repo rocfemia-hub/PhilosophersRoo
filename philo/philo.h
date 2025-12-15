@@ -57,5 +57,6 @@ int			is_other_death(t_list *philo);
 long		ft_atol(const char *nptr);
 void		init_philos(int n_philos, char **argv, t_list **head, t_aux *aux);
 void		create_philos(t_list **list);
+void		free_all(t_list **list);
 
 #endif
