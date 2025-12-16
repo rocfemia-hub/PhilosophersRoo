@@ -12,23 +12,6 @@
 
 #include "philo.h"
 
-void	ft_usleep(long milsec, t_list *philo)
-{
-	long	start;
-	long	current;
-
-	start = get_time(0);
-	while (1)
-	{
-		current = get_time(0);
-		if (is_this_death(philo) || is_other_death(philo))
-			return ;
-		if (current - start >= milsec)
-			break ;
-		usleep(10);
-	}
-}
-
 int	is_this_death(t_list *philo)
 {
 	pthread_mutex_lock(&philo->aux->death_mutex);

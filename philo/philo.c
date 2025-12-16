@@ -12,16 +12,6 @@
 
 #include "philo.h"
 
-long	get_time(long init)
-{
-	struct timeval	tv;
-	long			total_timer;
-
-	gettimeofday(&tv, NULL);
-	total_timer = (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-	return (total_timer - init);
-}
-
 static int	valid_argument(char **argv)
 {
 	int	i;
@@ -44,25 +34,7 @@ static int	valid_argument(char **argv)
 	return (1);
 }
 
-int	main(int argc, char **argv)
-{
-	t_list	*list;
-	t_aux	aux;
-
-	if (argc < 5 || argc > 6)
-		return (printf("Incorrect number of arguments\n"), 0);
-	if (valid_argument(argv) != 1)
-		return (0);
-	list = NULL;
-	aux.death_flag = 0;
-	pthread_mutex_init(&aux.death_mutex, NULL);
-	init_philos(ft_atol(argv[1]), argv, &list, &aux);
-	create_philos(&list);
-	free_all(&list);
-	return (printf("todo correcto :)\n"), 0);
-}
-
-void	free_all(t_list **list)
+static void	free_all(t_list **list)
 {
 	int		i;
 	t_list	*tmp;
@@ -74,6 +46,7 @@ void	free_all(t_list **list)
 	tmp_aux = tmp->next;
 	aux = tmp->n_philos;
 	pthread_mutex_destroy(&tmp->aux->death_mutex);
+	pthread_mutex_destroy(&tmp->aux->print_mutex);
 	while (aux > i)
 	{
 		tmp_aux = tmp->next;
@@ -85,7 +58,33 @@ void	free_all(t_list **list)
 	return ;
 }
 
-void	create_philos(t_list **list)
+static void	init_philos(int n_philos, char **argv, t_list **head, t_aux *aux)
+{
+	t_list	*node;
+	t_list	*last;
+	int		i;
+
+	node = NULL;
+	last = NULL;
+	i = 0;
+	while (i < n_philos)
+	{
+		node = create_node(i + 1, argv, aux);
+		if (!*head)
+			*head = node;
+		else
+		{
+			last->r_fork = &node->l_fork;
+			last->next = node;
+		}
+		last = node;
+		i++;
+	}
+	last->r_fork = &(*head)->l_fork;
+	last->next = *head;
+}
+
+static void	create_philos(t_list **list)
 {
 	int		i;
 	t_list	*tmp;
@@ -107,4 +106,24 @@ void	create_philos(t_list **list)
 		tmp = tmp->next;
 	}
 	return ;
+}
+
+int	main(int argc, char **argv)
+{
+	t_list	*list;
+	t_aux	aux;
+
+	if (argc < 5 || argc > 6)
+		return (printf("Incorrect number of arguments\n"), 0);
+	if (valid_argument(argv) != 1)
+		return (0);
+	list = NULL;
+	aux.death_flag = 0;
+	aux.philos_eaten = 0;
+	pthread_mutex_init(&aux.death_mutex, NULL);
+	pthread_mutex_init(&aux.print_mutex, NULL);
+	init_philos(ft_atol(argv[1]), argv, &list, &aux);
+	create_philos(&list);
+	free_all(&list);
+	return (0);
 }

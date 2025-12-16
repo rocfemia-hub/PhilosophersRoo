@@ -6,11 +6,11 @@ CC = cc
 BLUE   = \033[34m
 RESET  = \033[0m
 
-CCFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address -fno-omit-frame-pointer -O1 -pthread
+CCFLAGS = -Wall -Wextra -Werror -g3 #-fsanitize=address -fno-omit-frame-pointer -O1 -pthread
 
 SRC_DIR = src
 
-SRC = philo.c init_philo.c routines.c deaths.c one_philo.c\
+SRC = philo.c philo_utils.c routines.c deaths.c\
 
 OBJS = ${SRC:%.c=objects/%.o}
 

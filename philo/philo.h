@@ -21,6 +21,7 @@
 
 typedef struct s_aux
 {
+	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
 	int				death_flag;
 	int				philos_eaten;
@@ -47,18 +48,17 @@ typedef struct s_list
 	t_aux			*aux;
 }					t_list;
 
-long		get_time(long init);
-void		*routine(void *arg);
-int			one_philo(t_list *philo);
-
-void		ft_usleep(long milsec, t_list *philo);
+//  DEATHS
 int			is_this_death(t_list *philo);
 int			is_other_death(t_list *philo);
 
-// LISTAS
+// UTILS
 long		ft_atol(const char *nptr);
-void		init_philos(int n_philos, char **argv, t_list **head, t_aux *aux);
-void		create_philos(t_list **list);
-void		free_all(t_list **list);
+t_list		*create_node(int id, char **argv, t_aux *aux);
+long		get_time(long init);
+void		ft_usleep(long milsec, t_list *philo);
+
+// ROUTINE
+void		*routine(void *arg);
 
 #endif
